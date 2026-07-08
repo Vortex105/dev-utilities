@@ -2,22 +2,43 @@ import speedtest
 import csv
 import datetime
 import os
+import time
 
 FAILED_SPEED_TEST_VALUE = 0.0
 
 
+def format_server(server):
+    if not server:
+        return ""
+
+    host = server.get("host", "")
+    sponsor = server.get("sponsor", "")
+    name = server.get("name", "")
+    country = server.get("country", "")
+
+    parts = [part for part in [sponsor, name, country] if part]
+    location = ", ".join(parts)
+
+    if host and location:
+        return f"{host} ({location})"
+    return host or location
+
+
 def run_speed_test():
+    server = None
     try:
         test = speedtest.Speedtest()
-        download_speed = test.download() / 1_000_000
-        upload_speed = test.upload() / 1_000_000
-        ping_rate = test.results.ping
+        server = test.get_best_server()
+        download_speed = f"{test.download() / 1_000_000:.2f}"
+        upload_speed = f"{test.upload() / 1_000_000:.2f}"
+        ping_rate = f"{test.results.ping:.1f}"
 
         return {
             "success": True,
             "download_speed": download_speed,
             "upload_speed": upload_speed,
             "ping_rate": ping_rate,
+            "server_used": format_server(server),
             "error": "",
         }
     except Exception as error:
@@ -26,6 +47,7 @@ def run_speed_test():
             "download_speed": FAILED_SPEED_TEST_VALUE,
             "upload_speed": FAILED_SPEED_TEST_VALUE,
             "ping_rate": FAILED_SPEED_TEST_VALUE,
+            "server_used": format_server(server),
             "error": str(error),
         }
 
@@ -41,6 +63,7 @@ def create_csv(test_result):
                 "Upload Speed (Mbps)",
                 "Ping Rate (ms)",
                 "Status",
+                "Server_Used",
                 "Error",
             ]
         )
@@ -51,6 +74,7 @@ def create_csv(test_result):
                 test_result["upload_speed"],
                 test_result["ping_rate"],
                 "Success" if test_result["success"] else "Failed",
+                test_result["server_used"],
                 test_result["error"],
             ],
         )
@@ -72,10 +96,15 @@ def main():
                     test_result["upload_speed"],
                     test_result["ping_rate"],
                     "Success" if test_result["success"] else "Failed",
+                    test_result["server_used"],
                     test_result["error"],
                 ],
             )
 
 
 if __name__ == "__main__":
+    start = time.perf_counter()
     main()
+    end = time.perf_counter()
+
+    print(f"Execution time: {end - start:.4f} seconds")

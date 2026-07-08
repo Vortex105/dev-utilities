@@ -1,2 +1,8 @@
-Timestamp,Download Speed (Mbps),Upload Speed (Mbps),Ping Rate (ms),Status,Error
-2026-07-07 21:09:51,0.5170139494306157,4.8255038010357,333.615,Success,
+Timestamp,Download Speed (Mbps),Upload Speed (Mbps),Ping Rate (ms),Status,Server_Used,Error
+2026-07-08 19:55:07,2.5991513867468337,4.316175587617209,45.711,Success,"speedtestiky.mtn.ng:8080 (MTN NIGERIA COMMUNICATIONS LTD, Ikoyi, Nigeria)",
+2026-07-08 20:00:47,0.0,0.0,0.0,Failed,,HTTP Error 403: Forbidden
+2026-07-08 20:02:13,0.0,0.0,0.0,Failed,,HTTP Error 403: Forbidden
+2026-07-08 20:02:53,0.0,0.0,0.0,Failed,,HTTP Error 403: Forbidden
+2026-07-08 20:03:23,0.0,0.0,0.0,Failed,,HTTP Error 403: Forbidden
+2026-07-08 20:05:43,1.39,8.98,44.7,Success,"speedtestiky.mtn.ng:8080 (MTN NIGERIA COMMUNICATIONS LTD, Ikoyi, Nigeria)",
+2026-07-08 21:24:41,1.75,5.20,106.5,Success,"myspeedtest01.mtn.bj:8080 (MTN BENIN, Cotonou, Benin)",
